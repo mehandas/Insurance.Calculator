@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Ignore Visual Studio temporary files
+*.suo
+.vs/
+[Bb]in/
+[Oo]bj/
