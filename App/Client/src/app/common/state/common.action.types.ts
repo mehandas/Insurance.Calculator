@@ -1,0 +1,1 @@
+export const UPDATE_APPLICANT_DETAILS = '[ApplicantDetails] UPDATE_APPLICANT_DETAILS';
