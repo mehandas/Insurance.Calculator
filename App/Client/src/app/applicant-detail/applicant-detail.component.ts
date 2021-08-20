@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-applicant-detail',
@@ -19,9 +19,14 @@ export class ApplicantDetailComponent implements OnInit {
 
   private initializeApplicantForm(): void {
     this.applicantForm = this.formBuilder.group({
-      name: [''],
-      age: [''],
-      dateOfBirth: ['']
+      name: ['', Validators.required],
+      age: ['', [Validators.required, Validators.pattern(/^(0|[1-9][0-9]*)$/)]],
+      dateOfBirth: ['', Validators.required]
     });
+  }
+
+  hasError(val: string): boolean {
+    let control: AbstractControl = this.applicantForm.controls[val];
+    return control?.touched && control?.errors ? true : false;
   }
 }
