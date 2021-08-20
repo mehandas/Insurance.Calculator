@@ -1,7 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApplicantDetailComponent } from './applicant-detail.component';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ApplicantDetailComponent', () => {
   let component: ApplicantDetailComponent;
@@ -10,7 +12,10 @@ describe('ApplicantDetailComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ApplicantDetailComponent],
-      imports: [ReactiveFormsModule]
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule
+      ]
     }).compileComponents();
   });
 
@@ -141,5 +146,18 @@ describe('ApplicantDetailComponent', () => {
         expect(hasError).toBe(testCase.expected);
       });
     });    
+  });
+
+  describe('Method: onNextButtonClick', () => {
+    it('should navigate to calculator component', inject([Router], (router: Router) => {
+      // Arrange
+      spyOn(router, 'navigate');
+
+      // Act
+      component.onNextButtonClick();
+
+      // Assert
+      expect(router.navigate).toHaveBeenCalledWith(['calculator'])
+    }));
   });
 });

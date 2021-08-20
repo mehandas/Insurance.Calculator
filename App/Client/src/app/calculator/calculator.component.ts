@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calculator',
@@ -11,7 +12,7 @@ export class CalculatorComponent implements OnInit {
   title = 'Calculator';
   calculatorForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeCalculatorForm();
@@ -25,5 +26,9 @@ export class CalculatorComponent implements OnInit {
       state: [''],
       postCode: ['']
     });
+  }
+
+  OnPreviousButtonClick() {
+    this.router.navigate(['applicant-detail']);
   }
 }

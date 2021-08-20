@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-applicant-detail',
@@ -11,7 +12,7 @@ export class ApplicantDetailComponent implements OnInit {
   title = 'Applicant Detail';
   applicantForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.initializeApplicantForm();
@@ -29,4 +30,8 @@ export class ApplicantDetailComponent implements OnInit {
     let control: AbstractControl = this.applicantForm.controls[val];
     return control?.touched && control?.errors ? true : false;
   }
+
+  onNextButtonClick() {
+    this.router.navigate(['calculator']);
+  }  
 }
