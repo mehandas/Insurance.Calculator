@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Constants } from '../common/common.constants';
+import { OccupationModel, StateModel } from './calculator.model';
 
 @Component({
   selector: 'app-calculator',
@@ -18,6 +20,20 @@ export class CalculatorComponent implements OnInit {
     this.initializeCalculatorForm();
   }
 
+  OnPreviousButtonClick(): void {
+    this.router.navigate(['applicant-detail']);
+  }
+
+  get Occupations(): Array<OccupationModel> {
+    // TODO :: Get occupation list from Api
+    return Constants.Occupations;
+  }
+
+  get States(): Array<StateModel> {
+    // TODO :: Get state list from Api
+    return Constants.States;
+  }
+
   private initializeCalculatorForm(): void {
     this.calculatorForm = this.formBuilder.group({
       occupation: [''],
@@ -26,9 +42,5 @@ export class CalculatorComponent implements OnInit {
       state: [''],
       postCode: ['']
     });
-  }
-
-  OnPreviousButtonClick() {
-    this.router.navigate(['applicant-detail']);
   }
 }

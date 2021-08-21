@@ -29,7 +29,7 @@ describe('CalculatorComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Initialize applicant form', () => {
+  describe('Method: ngOnInit', () => {
     it('should initialize the applicant form on load', () => {
       // Act
       component.ngOnInit();
@@ -49,6 +49,17 @@ describe('CalculatorComponent', () => {
       expect(component.calculatorForm.controls.state).toBeTruthy();
       expect(component.calculatorForm.controls.postCode).toBeTruthy();
     });
+
+    it('should bind dropdown values', () => {
+      // Act
+      component.ngOnInit();
+
+      // Assert
+      const occupationElement: HTMLSelectElement = fixture.debugElement.nativeElement.querySelector('#occupation');
+      const stateElement: HTMLSelectElement = fixture.debugElement.nativeElement.querySelector('#state');
+      expect(occupationElement.options.length).toBe(6);
+      expect(stateElement.options.length).toBe(2);
+    });
   });
 
   describe('Method: OnPreviousButtonClick', () => {
@@ -60,7 +71,27 @@ describe('CalculatorComponent', () => {
       component.OnPreviousButtonClick();
 
       // Assert
-      expect(router.navigate).toHaveBeenCalledWith(['applicant-detail'])
+      expect(router.navigate).toHaveBeenCalledWith(['applicant-detail']);
     }));
+  });
+
+  describe('Property: Occupations', () => {
+    it('should return occupation list form constant', () => {
+      // Act
+      const occupatons = component.Occupations;
+
+      // Assert
+      expect(occupatons.length).toBe(6);
+    });
+  });
+
+  describe('Property: States', () => {
+    it('should return state list form constant', () => {
+      // Act
+      const states = component.States;
+
+      // Assert
+      expect(states.length).toBe(2);
+    });
   });
 });
