@@ -116,6 +116,19 @@ describe('CalculatorComponent', () => {
     });
   });
 
+  describe('Property: OccupationRatings', () => {
+    it('should return occupation ratings list form constant', () => {
+      // Act
+      const ratings = component.OccupationRatings;
+
+      // Assert
+      expect(ratings.length).toBe(4);
+      expect(ratings[0].id).toBe(1);
+      expect(ratings[0].name).toBe('Professional');
+      expect(ratings[0].factor).toBe(1.1);
+    });
+  });
+
   describe('Method: hasError', () => {
     [
       { control: 'occupation', value: '', expected: true },
@@ -144,6 +157,56 @@ describe('CalculatorComponent', () => {
         // Assert
         expect(hasError).toBe(testCase.expected);
       });
+    });
+  });
+
+  describe('Method: OnCalculateButtonClick', () => {
+    it('should calculate total value and display on screen', () => {
+      // Arrange
+      component.calculatorForm.controls.sumInsured.setValue('100000');
+      component.calculatorForm.controls.occupation.setValue('1');
+      component.applicantDetails = { age: 20 } as ApplicantDetails;
+
+      // Act
+      component.OnCalculateButtonClick();
+      fixture.detectChanges();
+
+      // Assert
+      const element: HTMLLabelElement = fixture.debugElement.nativeElement.querySelector('#lblTotalValue');
+      expect(component.totalValue).toBe(7.083333333333333);
+      expect(element.innerText).toBe('7.083333333333333');
+    });
+
+    it('should calculate total value as 0 when occupation is invalid', () => {
+      // Arrange
+      component.calculatorForm.controls.sumInsured.setValue('100000');
+      component.calculatorForm.controls.occupation.setValue('');
+      component.applicantDetails = { age: 20 } as ApplicantDetails;
+
+      // Act
+      component.OnCalculateButtonClick();
+      fixture.detectChanges();
+
+      // Assert
+      const element: HTMLLabelElement = fixture.debugElement.nativeElement.querySelector('#lblTotalValue');
+      expect(component.totalValue).toBe(0);
+      expect(element.innerText).toBe('0');
+    });
+
+    it('should calculate total value as 0 when sum-insured value is invalid', () => {
+      // Arrange
+      component.calculatorForm.controls.sumInsured.setValue('');
+      component.calculatorForm.controls.occupation.setValue('1');
+      component.applicantDetails = { age: 20 } as ApplicantDetails;
+
+      // Act
+      component.OnCalculateButtonClick();
+      fixture.detectChanges();
+
+      // Assert
+      const element: HTMLLabelElement = fixture.debugElement.nativeElement.querySelector('#lblTotalValue');
+      expect(component.totalValue).toBe(0);
+      expect(element.innerText).toBe('0');
     });
   });
 });

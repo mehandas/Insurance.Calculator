@@ -4,6 +4,12 @@ export class OccupationModel {
     ratingId!: number;
 }
 
+export class OccupationRatingModel {
+    id!: number
+    name!: string;
+    factor!: number;
+}
+
 export class StateModel {
     id!: number
     name!: string;

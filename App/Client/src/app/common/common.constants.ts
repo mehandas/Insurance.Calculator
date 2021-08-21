@@ -40,17 +40,17 @@ export const Constants = {
         {
             id: 2,
             name: 'White Collar',
-            ratingId: 1.45
+            factor: 1.45
         },
         {
             id: 3,
             name: 'Light Manual',
-            ratingId: 1.70
+            factor: 1.70
         },
         {
             id: 4,
             name: 'Heavy Manual',
-            ratingId: 2.1
+            factor: 2.1
         }
     ],
     States: [

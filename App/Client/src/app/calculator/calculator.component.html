@@ -65,5 +65,13 @@
             <button type="button" id="btnPrevious" class="btn btn-primary"
                 (click)="OnPreviousButtonClick()">Previous</button>
         </div>
+        <div class="col-sm-2">
+            <button type="button" id="btnCalculate" class="btn btn-primary"
+                (click)="OnCalculateButtonClick()">Calculate</button>
+        </div>
+        <div class="col-sm-7 col-form-label">
+            <label class="label-total">Total Value:</label>
+            <label id="lblTotalValue" class="label-value">{{totalValue}}</label>
+        </div>
     </div>
 </div>

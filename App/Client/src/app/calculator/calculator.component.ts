@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Constants } from '../common/common.constants';
 import { CommonState } from '../common/state/common.state';
-import { OccupationModel, StateModel } from './calculator.model';
+import { OccupationModel, OccupationRatingModel, StateModel } from './calculator.model';
 import * as commonSelectors from '../common/state/common.selectors';
 import { ApplicantDetails } from '../applicant-detail/applicant-detail.model';
 
@@ -18,6 +18,7 @@ export class CalculatorComponent implements OnInit {
   title = 'Calculator';
   calculatorForm!: FormGroup;
   applicantDetails!: ApplicantDetails;
+  totalValue = 0;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -37,6 +38,16 @@ export class CalculatorComponent implements OnInit {
     this.router.navigate(['applicant-detail']);
   }
 
+  OnCalculateButtonClick(): void {
+    // Total Value  = (Sum Insured * Occupation Rating Factor) /(100 * 12 * Age)
+    const sumInsured = Number(this.calculatorForm.controls.sumInsured.value);
+    const occupationId = Number(this.calculatorForm.controls.occupation.value);
+    const ratingId = this.Occupations.find(x => x.id === occupationId)?.ratingId;
+    const factor = this.OccupationRatings.find(x => x.id === ratingId)?.factor ?? 0;
+    const age = this.applicantDetails.age;
+    this.totalValue = (sumInsured * factor)/(100 * 12 * age);
+  }
+
   get Occupations(): Array<OccupationModel> {
     // TODO :: Get occupation list from Api
     return Constants.Occupations;
@@ -45,6 +56,10 @@ export class CalculatorComponent implements OnInit {
   get States(): Array<StateModel> {
     // TODO :: Get state list from Api
     return Constants.States;
+  }
+
+  get OccupationRatings(): Array<OccupationRatingModel> {
+    return Constants.OccupationRatings;
   }
 
   private initializeCalculatorForm(): void {
