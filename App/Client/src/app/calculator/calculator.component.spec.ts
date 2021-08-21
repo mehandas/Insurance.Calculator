@@ -3,6 +3,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CalculatorComponent } from './calculator.component';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { CommonState } from '../common/state/common.state';
+import { ApplicantDetails } from '../applicant-detail/applicant-detail.model';
+import { of } from 'rxjs';
+import { CommonReducer } from '../common/state/common.reducer';
 
 describe('CalculatorComponent', () => {
   let component: CalculatorComponent;
@@ -13,7 +18,9 @@ describe('CalculatorComponent', () => {
       declarations: [CalculatorComponent],
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('common', CommonReducer)
       ]
     })
       .compileComponents();
@@ -60,6 +67,20 @@ describe('CalculatorComponent', () => {
       expect(occupationElement.options.length).toBe(7);
       expect(stateElement.options.length).toBe(3);
     });
+
+    it('should get applicant-details from commonstore', inject([Store], (store: Store<CommonState>) => {
+      // Arrange
+      const mockApplicantDetails = { name: 'test', age: 20 } as ApplicantDetails;
+      component.applicantDetails = null as unknown as ApplicantDetails;
+      spyOn(store, 'pipe').and.returnValue(of(mockApplicantDetails));
+
+      // Act
+      component.ngOnInit();
+
+      // Assert
+      expect(store.pipe).toHaveBeenCalled();
+      expect(component.applicantDetails).toEqual(mockApplicantDetails);
+    }));
   });
 
   describe('Method: OnPreviousButtonClick', () => {

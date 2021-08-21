@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { Constants } from '../common/common.constants';
+import { CommonState } from '../common/state/common.state';
 import { OccupationModel, StateModel } from './calculator.model';
+import * as commonSelectors from '../common/state/common.selectors';
+import { ApplicantDetails } from '../applicant-detail/applicant-detail.model';
 
 @Component({
   selector: 'app-calculator',
@@ -13,11 +17,15 @@ export class CalculatorComponent implements OnInit {
 
   title = 'Calculator';
   calculatorForm!: FormGroup;
+  applicantDetails!: ApplicantDetails;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder,
+    private router: Router,
+    private store: Store<CommonState>) {}
 
   ngOnInit(): void {
     this.initializeCalculatorForm();
+    this.subscribeToState();
   }
 
   hasError(val: string): boolean {
@@ -49,5 +57,13 @@ export class CalculatorComponent implements OnInit {
       postCode: ['', [Validators.required,
       Validators.pattern(Constants.RegexPattern.NumberOnly), Validators.minLength(4), Validators.maxLength(4)]]
     });
+  }
+
+  private subscribeToState(): void {
+    this.store
+      .pipe(select(commonSelectors.applicantDetails))
+      .subscribe((applicantDetails: ApplicantDetails) => {
+        this.applicantDetails = applicantDetails;
+      });
   }
 }
