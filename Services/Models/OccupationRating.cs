@@ -1,9 +1,18 @@
 ﻿namespace Insurance.Calculator.Services.Models
 {
-    public class OccupationRating
+    public class OccupationRating : Option
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public OccupationRating()
+        {
+        }
+
+        public OccupationRating(int id, string name, double factor)
+        {
+            Id = id;
+            Name = name;
+            Factor = factor;
+        }
+
         public double Factor { get; set; }
     }
 }
