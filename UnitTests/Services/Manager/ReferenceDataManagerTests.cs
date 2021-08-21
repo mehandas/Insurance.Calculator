@@ -57,5 +57,17 @@ namespace Insurance.Calculator.UnitTests.Services.Manager
             response.States.Count.ShouldBe(1);
             response.States.First().Name.ShouldBe("test state");
         }
+
+        [Fact]
+        public void GetReferenceData_ShouldInvokeReferenceDataRepository_When_Executed()
+        {
+            // Act
+            _referenceDataManager.GetReferenceData();
+
+            // Assert
+            _referenceDataRepository.Received().GetOccupations();
+            _referenceDataRepository.Received().GetOccupationRatings();
+            _referenceDataRepository.Received().GetStates();
+        }
     }
 }

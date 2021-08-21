@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace App.Controllers
+namespace Insurance.Calculator.App.Controllers.Mvc
 {
     public class DefaultController : Controller
     {
         public DefaultController()
-        {            
+        {
         }
 
         public IActionResult Index()
