@@ -1,3 +1,4 @@
+import { ReferenceData } from 'src/app/calculator/calculator.model';
 import { applicantDetails, refData, error } from '../common.selectors'
 import { CommonState } from '../common.state';
 
@@ -6,7 +7,7 @@ describe('CommonSelectors', () => {
     beforeEach(() => {
         currentState = {
             applicantDetails: { name: 'test', age: 25, dateOfBirth: '31-08-2021' },
-            refData: { occupations: [{ id: 1, name: 'test occupation' }] },
+            refData: { occupations: [{ id: 1, name: 'test occupation', ratingId: 1 }] } as ReferenceData,
             error: { message: 'error' }
         };
     });

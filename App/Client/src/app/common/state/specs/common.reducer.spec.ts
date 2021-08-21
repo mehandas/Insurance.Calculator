@@ -1,11 +1,14 @@
 import { CommonReducer } from '../common.reducer';
 import * as commonActions from '../common.action';
 import { ApplicantDetails } from '../../../applicant-detail/applicant-detail.model';
+import { ReferenceData } from 'src/app/calculator/calculator.model';
 
 describe('CommonReducer', () => {
+    const currentState = { applicantDetails: new ApplicantDetails(),
+        refData: null as unknown as ReferenceData, error: null };
+        
     it('should set applicant details to common state', () => {
         // Arrange
-        const currentState = { applicantDetails: new ApplicantDetails(), refData: null, error: null };
         const request = { name: 'test', age: 25, dateOfBirth: '31-08-2021' };
 
         // Act
@@ -19,8 +22,7 @@ describe('CommonReducer', () => {
 
     it('should set refData to common state', () => {
         // Arrange
-        const currentState = { applicantDetails: new ApplicantDetails(), refData: null, error: null };
-        const response = { occupations: [{ id: 1, name: 'test occupation' }] };
+        const response = { occupations: [{ id: 1, name: 'test occupation' }] } as ReferenceData;
 
         // Act
         const commonState = CommonReducer(currentState, new commonActions.GetRefDataComplete({ response: response }));
@@ -33,7 +35,6 @@ describe('CommonReducer', () => {
 
     it('should set error to common state', () => {
         // Arrange
-        const currentState = { applicantDetails: new ApplicantDetails(), refData: null, error: null };
         const response = { message: 'error' };
 
         // Act

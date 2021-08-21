@@ -6,6 +6,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { Observable, of, throwError } from "rxjs";
 import { CommonService } from "../../common.service";
 import { CommonEffects } from "../common.effects";
+import { ReferenceData } from "src/app/calculator/calculator.model";
 
 describe('CommonEffects', () => {
     let effects: CommonEffects;
@@ -29,10 +30,10 @@ describe('CommonEffects', () => {
     it('should return response in payload when service call is success',
         inject([CommonService], (service: CommonService) => {
             // Arrange
-            const response = { data: {} };
+            const response = { Occupations: {} } as unknown as ReferenceData;
             actions$ = of({ type: '[ReferenceData] GET_REFERENCE_DATA' });
             spyOn(service, 'getRefData').and.returnValue(of(response));
-        
+
             // Act
             effects.getRefData$.subscribe(action => {
                 // Assert
@@ -49,7 +50,7 @@ describe('CommonEffects', () => {
             const error = { error: {} };
             actions$ = of({ type: '[ReferenceData] GET_REFERENCE_DATA' });
             spyOn(service, 'getRefData').and.returnValue(throwError(error));
-        
+
             // Act
             effects.getRefData$.subscribe(action => {
                 // Assert

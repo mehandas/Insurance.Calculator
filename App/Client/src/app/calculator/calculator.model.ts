@@ -14,3 +14,9 @@ export class StateModel {
     id!: number
     name!: string;
 }
+
+export class ReferenceData {
+    occupations!: Array<OccupationModel>;
+    occupationRatings!: Array<OccupationRatingModel>;
+    states!: Array<StateModel>;
+}
