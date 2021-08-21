@@ -62,5 +62,8 @@ export const Constants = {
             id: 2,
             name: 'State 2'
         }
-    ]
+    ],
+    RegexPattern: {
+        NumberOnly: '^[0-9]*$'
+    }
 };

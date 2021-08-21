@@ -173,7 +173,8 @@ describe('ApplicantDetailComponent', () => {
       { control: 'age', value: '100', expected: false },
       { control: 'age', value: 'text', expected: true }
     ].forEach((testCase) => {
-      it('should return true/false based on control touched and errors value', () => {
+      it(`should return ${testCase.expected} when '${testCase.control}' value is ${testCase.value} and touched`, () => {
+        // Arrange
         component.applicantForm.controls[testCase.control].setValue(testCase.value);
         component.applicantForm.controls[testCase.control].markAsTouched();
 

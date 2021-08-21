@@ -6,6 +6,7 @@ import { CommonState } from '../common/state/common.state';
 import { UpdateApplicantDetails } from '../common/state/common.action';
 import { ApplicantDetails } from './applicant-detail.model';
 import * as commonSelectors from '../common/state/common.selectors';
+import { Constants } from '../common/common.constants';
 
 @Component({
   selector: 'app-applicant-detail',
@@ -41,7 +42,7 @@ export class ApplicantDetailComponent implements OnInit {
   private initializeApplicantForm(): void {
     this.applicantForm = this.formBuilder.group({
       name: ['', Validators.required],
-      age: ['', [Validators.required, Validators.pattern(/^(0|[1-9][0-9]*)$/)]],
+      age: ['', [Validators.required, Validators.pattern(Constants.RegexPattern.NumberOnly)]],
       dateOfBirth: ['', Validators.required]
     });
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Constants } from '../common/common.constants';
 import { OccupationModel, StateModel } from './calculator.model';
@@ -20,6 +20,11 @@ export class CalculatorComponent implements OnInit {
     this.initializeCalculatorForm();
   }
 
+  hasError(val: string): boolean {
+    let control: AbstractControl = this.calculatorForm.controls[val];
+    return control?.touched && control?.errors ? true : false;
+  }
+
   OnPreviousButtonClick(): void {
     this.router.navigate(['applicant-detail']);
   }
@@ -36,11 +41,13 @@ export class CalculatorComponent implements OnInit {
 
   private initializeCalculatorForm(): void {
     this.calculatorForm = this.formBuilder.group({
-      occupation: [''],
-      sumInsured: [''],
-      totalMonthlyExpenses: [''],
-      state: [''],
-      postCode: ['']
+      occupation: ['', Validators.required],
+      sumInsured: ['', [Validators.required,
+      Validators.pattern(Constants.RegexPattern.NumberOnly), Validators.min(1000), Validators.max(1000000)]],
+      expenses: ['', [Validators.required, Validators.pattern(Constants.RegexPattern.NumberOnly)]],
+      state: ['', Validators.required],
+      postCode: ['', [Validators.required,
+      Validators.pattern(Constants.RegexPattern.NumberOnly), Validators.minLength(4), Validators.maxLength(4)]]
     });
   }
 }

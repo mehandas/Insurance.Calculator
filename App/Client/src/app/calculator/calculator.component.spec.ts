@@ -45,7 +45,7 @@ describe('CalculatorComponent', () => {
       // Assert
       expect(component.calculatorForm.controls.occupation).toBeTruthy();
       expect(component.calculatorForm.controls.sumInsured).toBeTruthy();
-      expect(component.calculatorForm.controls.totalMonthlyExpenses).toBeTruthy();
+      expect(component.calculatorForm.controls.expenses).toBeTruthy();
       expect(component.calculatorForm.controls.state).toBeTruthy();
       expect(component.calculatorForm.controls.postCode).toBeTruthy();
     });
@@ -57,8 +57,8 @@ describe('CalculatorComponent', () => {
       // Assert
       const occupationElement: HTMLSelectElement = fixture.debugElement.nativeElement.querySelector('#occupation');
       const stateElement: HTMLSelectElement = fixture.debugElement.nativeElement.querySelector('#state');
-      expect(occupationElement.options.length).toBe(6);
-      expect(stateElement.options.length).toBe(2);
+      expect(occupationElement.options.length).toBe(7);
+      expect(stateElement.options.length).toBe(3);
     });
   });
 
@@ -78,10 +78,10 @@ describe('CalculatorComponent', () => {
   describe('Property: Occupations', () => {
     it('should return occupation list form constant', () => {
       // Act
-      const occupatons = component.Occupations;
+      const occupations = component.Occupations;
 
       // Assert
-      expect(occupatons.length).toBe(6);
+      expect(occupations.length).toBe(6);
     });
   });
 
@@ -92,6 +92,37 @@ describe('CalculatorComponent', () => {
 
       // Assert
       expect(states.length).toBe(2);
+    });
+  });
+
+  describe('Method: hasError', () => {
+    [
+      { control: 'occupation', value: '', expected: true },
+      { control: 'occupation', value: 1, expected: false },
+      { control: 'sumInsured', value: '', expected: true },
+      { control: 'sumInsured', value: 100, expected: true },
+      { control: 'sumInsured', value: 1000, expected: false },
+      { control: 'sumInsured', value: 1000000, expected: false },
+      { control: 'sumInsured', value: 1000001, expected: true },
+      { control: 'expenses', value: '', expected: true },
+      { control: 'expenses', value: 100.100, expected: true },
+      { control: 'expenses', value: 100, expected: false },
+      { control: 'state', value: '', expected: true },
+      { control: 'state', value: 1, expected: false },
+      { control: 'postCode', value: '', expected: true },
+      { control: 'postCode', value: 1234, expected: false },
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expected} when '${testCase.control}' value is ${testCase.value} and touched`, () => {
+        // Arrange
+        component.calculatorForm.controls[testCase.control].setValue(testCase.value);
+        component.calculatorForm.controls[testCase.control].markAsTouched();
+
+        // Act
+        let hasError = component.hasError(testCase.control);
+
+        // Assert
+        expect(hasError).toBe(testCase.expected);
+      });
     });
   });
 });
