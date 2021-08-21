@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Insurance.Calculator.UnitTests</AssemblyName>
+    <RootNamespace>Insurance.Calculator.UnitTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

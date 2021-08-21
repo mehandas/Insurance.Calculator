@@ -3,7 +3,7 @@ using Shouldly;
 using System.Linq;
 using Xunit;
 
-namespace UnitTests.Services.Repositories
+namespace Insurance.Calculator.UnitTests.Services.Repositories
 {
     [Collection("ReferenceDataRepository")]
     public class ReferenceDataRepositoryTests

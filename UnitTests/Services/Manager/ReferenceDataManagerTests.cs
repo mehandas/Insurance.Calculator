@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace UnitTests.Services.Manager
+namespace Insurance.Calculator.UnitTests.Services.Manager
 {
     [Collection("ReferenceDataManager")]
     public class ReferenceDataManagerTests
