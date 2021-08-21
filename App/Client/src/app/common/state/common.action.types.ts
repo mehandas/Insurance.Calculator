@@ -1,1 +1,3 @@
 export const UPDATE_APPLICANT_DETAILS = '[ApplicantDetails] UPDATE_APPLICANT_DETAILS';
+export const GET_REFERENCE_DATA = '[ReferenceData] GET_REFERENCE_DATA';
+export const GET_REFERENCE_DATA_COMPLETE = '[ReferenceData] GET_REFERENCE_DATA_COMPLETE';

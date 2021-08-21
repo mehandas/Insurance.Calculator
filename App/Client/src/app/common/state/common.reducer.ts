@@ -4,7 +4,9 @@ import * as ActionTypes from './common.action.types'
 import { ApplicantDetails } from "../../applicant-detail/applicant-detail.model";
 
 const initialState: CommonState = {
-    applicantDetails: new ApplicantDetails()
+    applicantDetails: new ApplicantDetails(),
+    refData: null,
+    error: null
 };
 
 export function CommonReducer(state: CommonState = initialState, action: CommonActions): CommonState {
@@ -13,6 +15,19 @@ export function CommonReducer(state: CommonState = initialState, action: CommonA
             return {
                 ...state,
                 applicantDetails: action.applicantDetails
+            };
+        case ActionTypes.GET_REFERENCE_DATA_COMPLETE:
+            if(action?.payload?.error){
+                return {
+                    ...state,
+                    error: action.payload.error
+                }
+            }
+
+            return {
+                ...state,
+                refData: action?.payload?.response,
+                error: null
             };
         default:
             return state;
