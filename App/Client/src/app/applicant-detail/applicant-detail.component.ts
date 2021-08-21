@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { CommonState } from '../common/state/common.state';
+import { UpdateApplicantDetails } from '../common/state/common.action';
+import { ApplicantDetails } from './applicant-detail.model';
 
 @Component({
   selector: 'app-applicant-detail',
@@ -11,11 +15,25 @@ export class ApplicantDetailComponent implements OnInit {
 
   title = 'Applicant Detail';
   applicantForm!: FormGroup;
+  applicanDetails!: ApplicantDetails;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder,
+    private router: Router,
+    private store: Store<CommonState>) { }
 
   ngOnInit(): void {
     this.initializeApplicantForm();
+  }
+
+  hasError(val: string): boolean {
+    let control: AbstractControl = this.applicantForm.controls[val];
+    return control?.touched && control?.errors ? true : false;
+  }
+
+  onNextButtonClick() {
+    this.updateApplicanDetailsModel();
+    this.store.dispatch(new UpdateApplicantDetails(this.applicanDetails));
+    this.router.navigate(['calculator']);
   }
 
   private initializeApplicantForm(): void {
@@ -26,12 +44,11 @@ export class ApplicantDetailComponent implements OnInit {
     });
   }
 
-  hasError(val: string): boolean {
-    let control: AbstractControl = this.applicantForm.controls[val];
-    return control?.touched && control?.errors ? true : false;
+  private updateApplicanDetailsModel(): void {
+    this.applicanDetails = {
+      name: this.applicantForm.value.name,
+      age: Number(this.applicantForm.value.age),
+      dateOfBirth: this.applicantForm.value.dateOfBirth
+    };
   }
-
-  onNextButtonClick() {
-    this.router.navigate(['calculator']);
-  }  
 }

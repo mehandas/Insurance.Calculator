@@ -4,6 +4,9 @@ import { ApplicantDetailComponent } from './applicant-detail.component';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { CommonState } from '../common/state/common.state';
+import { UpdateApplicantDetails } from '../common/state/common.action';
 
 describe('ApplicantDetailComponent', () => {
   let component: ApplicantDetailComponent;
@@ -14,7 +17,8 @@ describe('ApplicantDetailComponent', () => {
       declarations: [ApplicantDetailComponent],
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        StoreModule.forRoot({})
       ]
     }).compileComponents();
   });
@@ -138,14 +142,14 @@ describe('ApplicantDetailComponent', () => {
       it('should return true/false based on control touched and errors value', () => {
         component.applicantForm.controls[testCase.control].setValue(testCase.value);
         component.applicantForm.controls[testCase.control].markAsTouched();
-        
+
         // Act
         let hasError = component.hasError(testCase.control);
-  
+
         // Assert
         expect(hasError).toBe(testCase.expected);
       });
-    });    
+    });
   });
 
   describe('Method: onNextButtonClick', () => {
@@ -158,6 +162,21 @@ describe('ApplicantDetailComponent', () => {
 
       // Assert
       expect(router.navigate).toHaveBeenCalledWith(['calculator'])
+    }));
+
+    it('should update the applicant-details form data to the state', inject([Store], (store: Store<CommonState>) => {
+      // Arrange
+      spyOn(store, 'dispatch');
+      component.applicantForm.controls.name.setValue('test');
+      component.applicantForm.controls.age.setValue('20');
+      component.applicantForm.controls.dateOfBirth.setValue('05/08/2021');
+
+      // Act
+      component.onNextButtonClick();
+
+      // Assert
+      expect(store.dispatch)
+        .toHaveBeenCalledWith(new UpdateApplicantDetails({ name: 'test', age: 20, dateOfBirth: '05/08/2021' }));
     }));
   });
 });

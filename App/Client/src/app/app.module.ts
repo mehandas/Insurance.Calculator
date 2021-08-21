@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ApplicantDetailComponent } from './applicant-detail/applicant-detail.component';
 import { CalculatorComponent } from './calculator/calculator.component';
-import { CommonReducer } from './state/common.reducer';
+import { CommonReducer } from './common/state/common.reducer';
 
 @NgModule({
   declarations: [
