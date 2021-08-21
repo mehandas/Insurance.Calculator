@@ -7,6 +7,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CommonState } from '../common/state/common.state';
 import { UpdateApplicantDetails } from '../common/state/common.action';
+import { of } from 'rxjs';
+import { ApplicantDetails } from './applicant-detail.model';
+import { CommonReducer } from '../common/state/common.reducer';
+import { AppRoutingModule } from '../app-routing.module';
 
 describe('ApplicantDetailComponent', () => {
   let component: ApplicantDetailComponent;
@@ -16,9 +20,11 @@ describe('ApplicantDetailComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ApplicantDetailComponent],
       imports: [
+        AppRoutingModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        StoreModule.forRoot({})
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('common', CommonReducer)
       ]
     }).compileComponents();
   });
@@ -42,7 +48,7 @@ describe('ApplicantDetailComponent', () => {
     expect(element.innerText).toBe('Applicant Detail');
   });
 
-  describe('Initialize applicant form', () => {
+  describe('Method: ngOnInit', () => {
     it('should initialize the applicant form on load', () => {
       // Act
       component.ngOnInit();
@@ -60,6 +66,34 @@ describe('ApplicantDetailComponent', () => {
       expect(component.applicantForm.controls.age).toBeTruthy();
       expect(component.applicantForm.controls.dateOfBirth).toBeTruthy();
     });
+
+    it('should get applicant-details data from store and set form values', inject([Store], (store: Store<CommonState>) => {
+      // Arrange
+      const mockApplicantDetails = { name: 'test' } as ApplicantDetails;
+      component.applicantDetails = null as unknown as ApplicantDetails;
+      spyOn(store, 'pipe').and.returnValue(of(mockApplicantDetails));
+
+      // Act
+      component.ngOnInit();
+
+      // Assert
+      expect(store.pipe).toHaveBeenCalled();
+      expect(component.applicantDetails).toEqual(mockApplicantDetails);
+      expect(component.applicantForm.value.name).toBe(mockApplicantDetails.name);
+    }));
+
+    it('should not set applicant-details data when data in store is null', inject([Store], (store: Store<CommonState>) => {
+      // Arrange      
+      component.applicantDetails = { name: 'test' } as ApplicantDetails;
+      const mockApplicantDetails = null as unknown as ApplicantDetails;
+      spyOn(store, 'pipe').and.returnValue(of(mockApplicantDetails));
+
+      // Act
+      component.ngOnInit();
+
+      // Assert
+      expect(component.applicantDetails).toEqual({ name: 'test' } as ApplicantDetails);
+    }));
   });
 
   describe('Validate applicant form controls', () => {

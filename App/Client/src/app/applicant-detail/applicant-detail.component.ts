@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { CommonState } from '../common/state/common.state';
 import { UpdateApplicantDetails } from '../common/state/common.action';
 import { ApplicantDetails } from './applicant-detail.model';
+import * as commonSelectors from '../common/state/common.selectors';
 
 @Component({
   selector: 'app-applicant-detail',
@@ -15,7 +16,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   title = 'Applicant Detail';
   applicantForm!: FormGroup;
-  applicanDetails!: ApplicantDetails;
+  applicantDetails!: ApplicantDetails;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -23,6 +24,7 @@ export class ApplicantDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeApplicantForm();
+    this.subscribeToState();
   }
 
   hasError(val: string): boolean {
@@ -30,9 +32,9 @@ export class ApplicantDetailComponent implements OnInit {
     return control?.touched && control?.errors ? true : false;
   }
 
-  onNextButtonClick() {
+  onNextButtonClick(): void {
     this.updateApplicanDetailsModel();
-    this.store.dispatch(new UpdateApplicantDetails(this.applicanDetails));
+    this.store.dispatch(new UpdateApplicantDetails(this.applicantDetails));
     this.router.navigate(['calculator']);
   }
 
@@ -45,10 +47,25 @@ export class ApplicantDetailComponent implements OnInit {
   }
 
   private updateApplicanDetailsModel(): void {
-    this.applicanDetails = {
+    this.applicantDetails = {
       name: this.applicantForm.value.name,
       age: Number(this.applicantForm.value.age),
       dateOfBirth: this.applicantForm.value.dateOfBirth
     };
+  }
+
+  private subscribeToState(): void {
+    this.store
+      .pipe(select(commonSelectors.applicantDetails))
+      .subscribe((applicanDetails: ApplicantDetails) => {
+        if (applicanDetails) {
+          this.applicantDetails = applicanDetails;
+          this.setApplicantFormValues();
+        }
+      });
+  }
+
+  private setApplicantFormValues(): void {
+    this.applicantForm.patchValue(this.applicantDetails);
   }
 }
