@@ -147,7 +147,7 @@ describe('CalculatorComponent', () => {
   });
 
   describe('Property: Occupations', () => {
-    it('should return occupation list form constant', () => {
+    it('should return occupation list form referenceData', () => {
       // Arrange
       component.referenceData = referenceData;
 
@@ -174,7 +174,7 @@ describe('CalculatorComponent', () => {
   });
 
   describe('Property: States', () => {
-    it('should return state list form constant', () => {
+    it('should return state list form referenceData', () => {
       // Arrange
       component.referenceData = referenceData;
 
