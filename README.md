@@ -8,7 +8,7 @@ Typescript 4.3
 
 - Applicant-detail component for Screen 1 requirement
 - Calculator component for Screen 2 requirement
-- Ngrx store is used to retain Screen 1 data and refrence data for drop-downs in Screen 2
+- Ngrx store is used to store Screen 1 data and refrence data for drop-downs in Screen 2
 - WebApi to fetch reference data for drop-downs from Mock repository
 - Single host `https://localhost:44345` to run both *Angular* and *API*
 
