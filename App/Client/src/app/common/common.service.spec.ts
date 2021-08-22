@@ -32,7 +32,7 @@ describe('CommonService', () => {
       expect(response).toBe(refData);
     }));
 
-    it('should return error response when api cal fails', inject([HttpClient], (http: HttpClient) => {
+    it('should return error response when api call fails', inject([HttpClient], (http: HttpClient) => {
       // Arrange
       let response: any;
       const errorResponse = new HttpErrorResponse({ error: 'Server error', status: 500 });
