@@ -35,4 +35,4 @@ Typescript 4.3
 	- Use command `ng test --code-coverage` to generate code coverage report
 	- Launch `App\Client\coverage\Client\index.html` to view coverage report
 
-[](https://github.com/mehandas/Insurance.Calculator/blob/master/Screen%201.png)
+![](https://github.com/mehandas/Insurance.Calculator/blob/master/Screen%201.png)
