@@ -19,7 +19,7 @@ describe('CommonService', () => {
   });
 
   describe('Method: getRefData', () => {
-    it('should return reference data', inject([HttpClient], (http: HttpClient) => {
+    it('should return reference data when api call is success', inject([HttpClient], (http: HttpClient) => {
       // Arrange
       let response: any;
       const refData = { occupations: [{ occupation: { id: 1, name: 'test' } }] };
@@ -32,7 +32,7 @@ describe('CommonService', () => {
       expect(response).toBe(refData);
     }));
 
-    it('should return reference data', inject([HttpClient], (http: HttpClient) => {
+    it('should return error response when api cal fails', inject([HttpClient], (http: HttpClient) => {
       // Arrange
       let response: any;
       const errorResponse = new HttpErrorResponse({ error: 'Server error', status: 500 });
