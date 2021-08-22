@@ -17,10 +17,10 @@ Typescript 4.3
 1) To run the solution/application in local
 	- Clone `master` branch to your local
 	- Open solution in Visual Studio 2019
-	- Run application using `IIS Express` in Visual Studio
-	- Angular build files are included in the repo so *ng build* is not required in local to view application
-	- Open folder `App/Client` in VS Code to view Angular client side changes
-	- Client folder is excluded from the project - to prevent Angular/Typescript build error during solution build in Visual Studio
+	- Run application using `IIS Express` in Visual Studio - application will be laucned in the browser `https://localhost:44345`
+	  - Angular build files are included in the repo so *ng build* is not required in local to view application
+	  - Open folder `App/Client` in VS Code to view Angular client side changes
+	  - Client folder is excluded from the project - to prevent Angular/Typescript build error during solution build in Visual Studio
 
 2) To build the angular project in local
 	- Clone `master` branch to your local
@@ -32,8 +32,8 @@ Typescript 4.3
 3) Run Unit tests
 	- Use `VS Test Explorer` to run C# Unit tests
 	- Use command `ng test` in VS Code terminal to run angular test specs
-	- Use command `ng test --code-coverage` to generate code coverage report
-	- Launch `App\Client\coverage\Client\index.html` to view coverage report
+	  - Use command `ng test --code-coverage` to generate code coverage report
+	  - Launch `App\Client\coverage\Client\index.html` to view coverage report
 
 
 
