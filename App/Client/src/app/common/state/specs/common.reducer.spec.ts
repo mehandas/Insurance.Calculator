@@ -1,7 +1,7 @@
 import { CommonReducer } from '../common.reducer';
 import * as commonActions from '../common.action';
 import { ApplicantDetails } from '../../../applicant-detail/applicant-detail.model';
-import { ReferenceData } from 'src/app/calculator/calculator.model';
+import { ReferenceData } from './../../reference-data.model';
 
 describe('CommonReducer', () => {
     const currentState = { applicantDetails: new ApplicantDetails(),

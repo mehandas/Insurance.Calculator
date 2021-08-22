@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Constants } from '../common/common.constants';
 import { CommonState } from '../common/state/common.state';
-import { OccupationModel, OccupationRatingModel, ReferenceData, StateModel } from './calculator.model';
+import { OccupationModel, OccupationRatingModel, ReferenceData, StateModel } from '../common/reference-data.model';
 import * as commonSelectors from '../common/state/common.selectors';
 import { ApplicantDetails } from '../applicant-detail/applicant-detail.model';
 import { GetRefData } from '../common/state/common.action';

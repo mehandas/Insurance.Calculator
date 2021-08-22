@@ -2,7 +2,7 @@ import { CommonActions } from "./common.action";
 import { CommonState } from "./common.state";
 import * as ActionTypes from './common.action.types'
 import { ApplicantDetails } from "../../applicant-detail/applicant-detail.model";
-import { ReferenceData } from "src/app/calculator/calculator.model";
+import { ReferenceData } from "./../reference-data.model";
 
 const initialState: CommonState = {
     applicantDetails: new ApplicantDetails(),

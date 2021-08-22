@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { Observable, of, throwError } from "rxjs";
 import { CommonService } from "../../common.service";
 import { CommonEffects } from "../common.effects";
-import { ReferenceData } from "src/app/calculator/calculator.model";
+import { ReferenceData } from "./../../reference-data.model";
 
 describe('CommonEffects', () => {
     let effects: CommonEffects;

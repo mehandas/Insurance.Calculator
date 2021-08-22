@@ -8,7 +8,7 @@ import { CommonState } from '../common/state/common.state';
 import { ApplicantDetails } from '../applicant-detail/applicant-detail.model';
 import { of } from 'rxjs';
 import { CommonReducer } from '../common/state/common.reducer';
-import { ReferenceData } from './calculator.model';
+import { ReferenceData } from '../common/reference-data.model';
 import { GetRefData } from '../common/state/common.action';
 
 describe('CalculatorComponent', () => {
@@ -280,6 +280,7 @@ describe('CalculatorComponent', () => {
       component.calculatorForm.controls.sumInsured.setValue('100000');
       component.calculatorForm.controls.occupation.setValue('');
       component.applicantDetails = { age: 20 } as ApplicantDetails;
+      component.referenceData = referenceData;
 
       // Act
       component.OnCalculateButtonClick();
@@ -296,6 +297,24 @@ describe('CalculatorComponent', () => {
       component.calculatorForm.controls.sumInsured.setValue('');
       component.calculatorForm.controls.occupation.setValue('1');
       component.applicantDetails = { age: 20 } as ApplicantDetails;
+      component.referenceData = referenceData;
+
+      // Act
+      component.OnCalculateButtonClick();
+      fixture.detectChanges();
+
+      // Assert
+      const element: HTMLLabelElement = fixture.debugElement.nativeElement.querySelector('#lblTotalValue');
+      expect(component.totalValue).toBe(0);
+      expect(element.innerText).toBe('0');
+    });
+
+    it('should calculate total value as 0 when reference-data is null', () => {
+      // Arrange
+      component.calculatorForm.controls.sumInsured.setValue('100000');
+      component.calculatorForm.controls.occupation.setValue('1');
+      component.applicantDetails = { age: 20 } as ApplicantDetails;
+      component.referenceData = null as unknown as ReferenceData;
 
       // Act
       component.OnCalculateButtonClick();

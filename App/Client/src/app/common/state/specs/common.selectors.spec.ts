@@ -1,4 +1,4 @@
-import { ReferenceData } from 'src/app/calculator/calculator.model';
+import { ReferenceData } from './../../reference-data.model';
 import { applicantDetails, refData, error } from '../common.selectors'
 import { CommonState } from '../common.state';
 

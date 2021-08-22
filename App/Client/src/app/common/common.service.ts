@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment as env  } from '../../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { ReferenceData } from '../calculator/calculator.model';
+import { ReferenceData } from './reference-data.model';
 
 @Injectable({
   providedIn: 'root'
