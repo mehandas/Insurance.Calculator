@@ -10,6 +10,7 @@ Typescript 4.3
 - Calculator component for Screen 2 requirement
 - Ngrx store is used to retain Screen 1 data and refrence data for drop-downs in Screen 2
 - WebApi to fetch reference data for drop-downs from Mock repository
+- Single host `https://localhost:44345` to run both *Angular* and *API*
 
 **Note:** *node_module* files are not pushed, but the build files required to run the application is available in this repository
 
