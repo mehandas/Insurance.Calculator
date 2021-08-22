@@ -1,1 +1,36 @@
-# Insurance.Calculator
+### Insurance.Calculator
+
+This solution is built using
+```
+NetCore App 3.1
+Angular 12
+Typescript 4.3
+```
+
+- Applicant-detail component for Screen 1 requirement
+- Calculator component for SCreen 2 requirement
+- Ngrx store is used to retain Screen 1 data and refrence data for drop-downs in Screen 2
+- WebApi to fetch reference data for drop-downs from Mock repository
+
+Note: node_module files are not pushed, but the build files required to run the application is available in this repository
+
+1) To run the solution/application in local
+	- Clone `master` branch to your local
+	- Open solution in Visual Studio 2019
+	- Run application uisng 'IIS Express' in Visual Studio
+	- Angular build files are included in the repo, ng build is not required in local to view application
+	- Open folder `App/Client` in VS Code to view Angular client side changes
+	- Clinent folder is excluded from project - To prevent Angular/Typescript build error during solution build in visual Studion
+
+2) To build the angular project in local
+	- Clone `master` branch to your local
+	- Open `App/Client` folder in VS Code
+	- Install required packages listed in package.json file
+	- Run command 'ng build' in terminal
+	- Run solution using 'IIS Express' in VS or refersh url in browser (if app is already running)
+
+3) Run Unit tests
+	- Use VS Test Explorer to run C# Unit tests
+	- Use command `ng test` in VS Code terminal to run angular test specs
+	- Use command `ng test --code-coverage` to generate code coverage report
+	- Launch `App\Client\coverage\Client\index.html` to view coverage report
