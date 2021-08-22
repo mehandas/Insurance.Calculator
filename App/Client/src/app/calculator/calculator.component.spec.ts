@@ -8,10 +8,28 @@ import { CommonState } from '../common/state/common.state';
 import { ApplicantDetails } from '../applicant-detail/applicant-detail.model';
 import { of } from 'rxjs';
 import { CommonReducer } from '../common/state/common.reducer';
+import { ReferenceData } from './calculator.model';
+import { GetRefData } from '../common/state/common.action';
 
 describe('CalculatorComponent', () => {
   let component: CalculatorComponent;
   let fixture: ComponentFixture<CalculatorComponent>;
+  const referenceData: ReferenceData = {
+    occupations: [{
+      id: 1,
+      name: 'Cleaner',
+      ratingId: 3
+    }],
+    occupationRatings: [{
+      id: 3,
+      name: 'Light Manual',
+      factor: 1.70
+    }],
+    states: [{
+      id: 1,
+      name: 'State 1'
+    }]
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -64,8 +82,8 @@ describe('CalculatorComponent', () => {
       // Assert
       const occupationElement: HTMLSelectElement = fixture.debugElement.nativeElement.querySelector('#occupation');
       const stateElement: HTMLSelectElement = fixture.debugElement.nativeElement.querySelector('#state');
-      expect(occupationElement.options.length).toBe(7);
-      expect(stateElement.options.length).toBe(3);
+      expect(occupationElement.options.length).toBeGreaterThan(0);
+      expect(stateElement.options.length).toBeGreaterThan(0);
     });
 
     it('should get applicant-details from commonstore', inject([Store], (store: Store<CommonState>) => {
@@ -80,6 +98,38 @@ describe('CalculatorComponent', () => {
       // Assert
       expect(store.pipe).toHaveBeenCalled();
       expect(component.applicantDetails).toEqual(mockApplicantDetails);
+    }));
+
+    it('should get reference from commonstore', inject([Store], (store: Store<CommonState>) => {
+      // Arrange      
+      const mockReferenceData = { occupations: {} } as ReferenceData;
+      component.referenceData = null as unknown as ReferenceData;
+      spyOn(store, 'pipe').and.returnValue(of(mockReferenceData));
+      spyOn(store, 'dispatch');
+
+      // Act
+      component.ngOnInit();
+
+      // Assert
+      expect(store.pipe).toHaveBeenCalled();
+      expect(component.referenceData).toEqual(mockReferenceData);
+      expect(store.dispatch).not.toHaveBeenCalled();
+    }));
+
+    it('should call dispatcher reference data is null in commonstore', inject([Store], (store: Store<CommonState>) => {
+      // Arrange      
+      const mockReferenceData = null as unknown as ReferenceData;
+      component.referenceData = mockReferenceData;
+      spyOn(store, 'pipe').and.returnValue(of(mockReferenceData));
+      spyOn(store, 'dispatch');
+
+      // Act
+      component.ngOnInit();
+
+      // Assert
+      expect(store.pipe).toHaveBeenCalled();
+      expect(component.referenceData).toBeNull();
+      expect(store.dispatch).toHaveBeenCalledWith(new GetRefData());
     }));
   });
 
@@ -98,34 +148,81 @@ describe('CalculatorComponent', () => {
 
   describe('Property: Occupations', () => {
     it('should return occupation list form constant', () => {
+      // Arrange
+      component.referenceData = referenceData;
+
       // Act
       const occupations = component.Occupations;
 
       // Assert
-      expect(occupations.length).toBe(6);
+      expect(occupations.length).toBeGreaterThan(0);
+      expect(occupations[0].id).toBe(1);
+      expect(occupations[0].name).toBe('Cleaner');
+      expect(occupations[0].ratingId).toBe(3);
+    });
+
+    it('should return occupations as undefined when referenecData is null', () => {
+      // Arrange
+      component.referenceData = null as unknown as ReferenceData;
+
+      // Act
+      const occupations = component.Occupations;
+
+      // Assert
+      expect(occupations).toBeUndefined();
     });
   });
 
   describe('Property: States', () => {
     it('should return state list form constant', () => {
+      // Arrange
+      component.referenceData = referenceData;
+
       // Act
       const states = component.States;
 
       // Assert
-      expect(states.length).toBe(2);
+      expect(states.length).toBeGreaterThan(0);
+      expect(states[0].id).toBe(1);
+      expect(states[0].name).toBe('State 1');
+    });
+
+    it('should return states as undefined when referenecData is null', () => {
+      // Arrange
+      component.referenceData = null as unknown as ReferenceData;
+
+      // Act
+      const states = component.States;
+
+      // Assert
+      expect(states).toBeUndefined();
     });
   });
 
   describe('Property: OccupationRatings', () => {
-    it('should return occupation ratings list form constant', () => {
+    it('should return occupation ratings list form referenceData', () => {
+      // Arrange
+      component.referenceData = referenceData;
+
       // Act
       const ratings = component.OccupationRatings;
 
       // Assert
-      expect(ratings.length).toBe(4);
-      expect(ratings[0].id).toBe(1);
-      expect(ratings[0].name).toBe('Professional');
-      expect(ratings[0].factor).toBe(1.1);
+      expect(ratings.length).toBeGreaterThan(0);
+      expect(ratings[0].id).toBe(3);
+      expect(ratings[0].name).toBe('Light Manual');
+      expect(ratings[0].factor).toBe(1.7);
+    });
+
+    it('should return occupation ratings as undefined when referenecData is null', () => {
+      // Arrange
+      component.referenceData = null as unknown as ReferenceData;
+
+      // Act
+      const ratings = component.OccupationRatings;
+
+      // Assert
+      expect(ratings).toBeUndefined();
     });
   });
 
@@ -166,6 +263,7 @@ describe('CalculatorComponent', () => {
       component.calculatorForm.controls.sumInsured.setValue('100000');
       component.calculatorForm.controls.occupation.setValue('1');
       component.applicantDetails = { age: 20 } as ApplicantDetails;
+      component.referenceData = referenceData;
 
       // Act
       component.OnCalculateButtonClick();

@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Constants } from '../common/common.constants';
 import { CommonState } from '../common/state/common.state';
-import { OccupationModel, OccupationRatingModel, StateModel } from './calculator.model';
+import { OccupationModel, OccupationRatingModel, ReferenceData, StateModel } from './calculator.model';
 import * as commonSelectors from '../common/state/common.selectors';
 import { ApplicantDetails } from '../applicant-detail/applicant-detail.model';
+import { GetRefData } from '../common/state/common.action';
 
 @Component({
   selector: 'app-calculator',
@@ -19,10 +20,11 @@ export class CalculatorComponent implements OnInit {
   calculatorForm!: FormGroup;
   applicantDetails!: ApplicantDetails;
   totalValue = 0;
+  referenceData!: ReferenceData;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private store: Store<CommonState>) {}
+    private store: Store<CommonState>) { }
 
   ngOnInit(): void {
     this.initializeCalculatorForm();
@@ -42,24 +44,22 @@ export class CalculatorComponent implements OnInit {
     // Total Value  = (Sum Insured * Occupation Rating Factor) /(100 * 12 * Age)
     const sumInsured = Number(this.calculatorForm.controls.sumInsured.value);
     const occupationId = Number(this.calculatorForm.controls.occupation.value);
-    const ratingId = this.Occupations.find(x => x.id === occupationId)?.ratingId;
-    const factor = this.OccupationRatings.find(x => x.id === ratingId)?.factor ?? 0;
+    const ratingId = this.Occupations?.find(x => x.id === occupationId)?.ratingId;
+    const factor = this.OccupationRatings?.find(x => x.id === ratingId)?.factor ?? 0;
     const age = this.applicantDetails.age;
-    this.totalValue = (sumInsured * factor)/(100 * 12 * age);
+    this.totalValue = (sumInsured * factor) / (100 * 12 * age);
   }
 
   get Occupations(): Array<OccupationModel> {
-    // TODO :: Get occupation list from Api
-    return Constants.Occupations;
+    return this.referenceData?.occupations;
   }
 
   get States(): Array<StateModel> {
-    // TODO :: Get state list from Api
-    return Constants.States;
+    return this.referenceData?.states;
   }
 
   get OccupationRatings(): Array<OccupationRatingModel> {
-    return Constants.OccupationRatings;
+    return this.referenceData?.occupationRatings;
   }
 
   private initializeCalculatorForm(): void {
@@ -79,6 +79,22 @@ export class CalculatorComponent implements OnInit {
       .pipe(select(commonSelectors.applicantDetails))
       .subscribe((applicantDetails: ApplicantDetails) => {
         this.applicantDetails = applicantDetails;
+      });
+
+    this.store
+      .pipe(select(commonSelectors.refData))
+      .subscribe((referenceData: ReferenceData) => {
+        if (referenceData) {
+          this.referenceData = referenceData;
+        } else {
+          this.store.dispatch(new GetRefData());
+        }
+      });
+
+    this.store
+      .pipe(select(commonSelectors.error))
+      .subscribe((error) => {
+        // can be used to display exception handling UX
       });
   }
 }
